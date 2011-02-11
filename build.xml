@@ -1,0 +1,13 @@
+<!-- ====================================================================== 
+     Feb 10, 2011 11:15:04 PM                                                        
+
+     Street Objects    
+                   
+     Adarsh Pandey                                                                
+     ====================================================================== -->
+<project name="Street Objects" default="default" basedir=".">
+    <description>
+            This Project belong to StreetObjects
+    </description>
+	<import file="soproject/build.xml"/>    
+</project>

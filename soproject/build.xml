@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- =====================================
+		Feb 10, 2011 11:15:04 PM 
+========================================== -->
+<project name="project" default="default">
+
+	<!-- ================================= 
+	          target: default              
+	         ================================= -->
+	<target name="default" description="description">
+
+	</target>
+</project>
