@@ -1,14 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!-- =====================================
 		Feb 10, 2011 11:15:04 PM 
 ========================================== -->
 <project name="project" default="default">
+	
+	<property file="soproject/build.properties"/>
+		
+	<property name="BUILD_DIR" value="${build.dir}" />
+	<property name="WEB_DIR" value="${web.dir}" />
+	<property name="STD_LIB_DIR" value="${stdlib.dir}" />
+	<property name="WEB_LIB_DIR" value="${web.lib.dir}" />
+	<property name="WEB_CLASSES_DIR" value="${web.classes.dir}" />
+	<property name="SRC_DIR" value="${source.dir}" />
+	<property name="CONFIG_DIR" value="${config.dir}" />
+	<property name="WEB_INF_DIR" value="${WEB_DIR}/WEB-INF" />
+	<property name="META_INF_DIR" value="${WEB_DIR}/META-INF" />
 
 	<!-- ================================= 
 	          target: default              
 	         ================================= -->
-	<target name="default" description="description">
-
+	<target name="default" depends="createWAR"  description="description">
+	
 	</target>
+	
+	<target name="createWAR" depends="compileSRC">
+			<war destfile="${BUILD_DIR}/StreetObjects.war" webxml="${WEB_INF_DIR}/web.xml" basedir="${WEB_DIR}" />
+	</target>
+	
+	<target name="compileSRC" depends="copySrcResources">
+    	<javac srcdir="${SRC_DIR}" destdir="${WEB_CLASSES_DIR}" debug="on" >
+    		<classpath refid="class.path"></classpath>
+    		<include name="**/*"/>
+    	</javac>
+    </target>
+	
+	<target name="copySrcResources"  depends="clean, copyStdLib" description="Copies XML files to Classes">
+		<copy todir="${WEB_CLASSES_DIR}" >
+			<fileset dir="${SRC_DIR}">
+				<include name="**/*.xml" />
+				<include name="**/*.ccf"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="clean" description="Clean all classes and lib file of WEB-INF">
+		<echo>Clean all classes and lib file of WEB-INF</echo>
+		<delete failonerror="true">
+			<fileset dir="${WEB_CLASSES_DIR}" includes="**/*"></fileset>
+		</delete>
+		<delete failonerror="true">
+			<fileset dir="${WEB_LIB_DIR}" includes="**/*"></fileset>
+		</delete>
+	</target>
+	
+	<target name="copyStdLib">
+		<copy todir="${WEB_LIB_DIR}">
+			<fileset dir="${STD_LIB_DIR}">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<path id="jar.path">
+		<fileset dir="${WEB_LIB_DIR}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="class.path">
+		<pathelement path="${WEB_CLASSES_DIR}"/>
+		<path refid="jar.path" />
+	</path>
+	
 </project>
